@@ -1,0 +1,97 @@
+// Calculator.java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Calculator {
+    private JFrame frame;
+    private JTextField textField;
+    private JButton[] numberButtons = new JButton[10];
+    private JButton[] functionButtons = { new JButton("+"), new JButton("-"), new JButton("*"), new JButton("/"),
+            new JButton("="), new JButton("C") };
+    private double num1, num2, result;
+    private String operation;
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+        calculator.createCalculator();
+    }
+
+    private void createCalculator() {
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 500);
+        frame.setLayout(new BorderLayout());
+
+        textField = new JTextField();
+        textField.setEditable(false);
+        textField.setHorizontalAlignment(JTextField.RIGHT);
+        frame.add(textField, BorderLayout.NORTH);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 3));
+
+        for (int i = 0; i < 10; i++) {
+            numberButtons[i] = new JButton(String.valueOf(i));
+            numberButtons[i].addActionListener(e -> textField.setText(textField.getText() + i));
+            panel.add(numberButtons[i]);
+        }
+
+        functionButtons[0].addActionListener(e -> {
+            num1 = Double.parseDouble(textField.getText());
+            operation = "+";
+            textField.setText("");
+        });
+
+        functionButtons[1].addActionListener(e -> {
+            num1 = Double.parseDouble(textField.getText());
+            operation = "-";
+            textField.setText("");
+        });
+
+        functionButtons[2].addActionListener(e -> {
+            num1 = Double.parseDouble(textField.getText());
+            operation = "*";
+            textField.setText("");
+        });
+
+        functionButtons[3].addActionListener(e -> {
+            num1 = Double.parseDouble(textField.getText());
+            operation = "/";
+            textField.setText("");
+        });
+
+        functionButtons[4].addActionListener(e -> {
+            num2 = Double.parseDouble(textField.getText());
+
+            switch (operation) {
+                case "+":
+                    result = num1 + num2;
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    break;
+                case "*":
+                    result = num1 * num2;
+                    break;
+                case "/":
+                    result = num1 / num2;
+                    break;
+            }
+
+            textField.setText(String.valueOf(result));
+        });
+
+        functionButtons[5].addActionListener(e -> textField.setText(""));
+
+        panel.add(functionButtons[0]);
+        panel.add(functionButtons[1]);
+        panel.add(functionButtons[2]);
+        panel.add(functionButtons[3]);
+        panel.add(functionButtons[4]);
+        panel.add(functionButtons[5]);
+
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+}
